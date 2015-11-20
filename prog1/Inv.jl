@@ -32,16 +32,21 @@ function inv_merge(left, rigth)
             return 0
         end
     end
-
     inv_merge(left)
 end
 
+#level_stack = 0
+
 function merge_sort(data::Array{Int64,1})
+#   global level_stack += 1
+#   l = length(data)
+#   print_with_color(:blue,"The length of data is $(l)\n")
+#   print_with_color(:green, "merge_sort in the stack level $(level_stack).\n")
     num_data = length(data)
     if num_data > 1
-        middle = round(Int64, num_data/2)
+        middle = round(Int64, num_data / 2)
         left = merge_sort(data[1:middle])
-        right = merge_sort(data[middle:end])
+        right = merge_sort(data[middle+1:end])
         return merge(left,right)::Array{Int64,1}
     elseif num_data == 1
         return data
