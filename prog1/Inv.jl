@@ -39,12 +39,14 @@ end
 function merge_sort(data::Array{Int64,1})
     num_data = length(data)
     if num_data > 1
-        middle   = round(Int64, num_data/2)
+        middle = round(Int64, num_data/2)
         left = merge_sort(data[1:middle])
         right = merge_sort(data[middle:end])
-        merge(left,right)
+        return merge(left,right)::Array{Int64,1}
     elseif num_data == 1
-        return data[1]
+        return data
+    else
+        throw("input data cann't be empty!")
     end
 end
 
