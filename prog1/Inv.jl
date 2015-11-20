@@ -4,7 +4,7 @@ const data_fl = "IntegerArray.txt"
 
 function inv_main()
 
-    num_data = 1000_000
+    num_data = 100_000
     data = Array{Int64,1}(num_data)
     open(data_fl) do file
         num_line = 0
@@ -16,23 +16,40 @@ function inv_main()
     end
 
     count = inv_count(data)
+
     print_with_color(:green, "The number of inversions is $(count) !")
 end
 
 function inv_count(data::Array{Int64,1})
+    if length(data) == 1
+        return 0
+    else
+        ind_m = round(Int64, length(data)/2)
+        left = data[1:ind_m]
+        right = data[ind_m+1:end]
+        l = inv_count(left)
+        r = inv_count(right)
+        m = inv_merge(left, right)
+        return l+r+m
+    end
 
-
+    throw("You can't see me!")
 end
 
-function inv_merge(left, rigth)
-    if length(left) == length(right) == 1
-        if left > right
-            return 1
-        else
-            return 0
+function inv_merge(left::Array{Int64,1}, right::Array{Int64,1})
+    count = 0
+    left_ord = merge_sort(left)
+    right_ord = merge_sort(right)
+
+    for l in left_ord, r in right_ord
+        if l > r
+            count += 1
+        elseif l == r
+            throw("inv_merge found two equal integer.")
         end
     end
-    inv_merge(left)
+
+    count
 end
 
 #level_stack = 0
