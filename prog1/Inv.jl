@@ -53,13 +53,32 @@ function merge(left::Array{Int64,1}, right::Array{Int64,1})
     num_right = length(right)
     result = similar(left, num_left+num_right)
     n = 0
+    p_left = 1
+    p_right = 1
     while n <= (num_left+num_right)
         n += 1
-        
+        first_left = left[p_left]
+        first_right = right[p_right]
 
-
+        if first_left < first_right
+            result[n] = first_left
+            p_left += 1
+            if p_left > num_left
+                result[n+1:end] = right[p_right:end]
+                break
+            end
+        elseif first_left > first_right
+            result[n] = first_right
+            p_right += 1
+            if p_right > num_right
+                result[n+1:end] = left[p_left:end]
+                break
+            end
+        else
+            throw("merge found two numbers is same")
+        end
     end
-
+    result
 end
 
 
